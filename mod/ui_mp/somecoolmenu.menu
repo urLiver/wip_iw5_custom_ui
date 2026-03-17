@@ -1,0 +1,77 @@
+#include "ui/utils/properties.inc"
+#include "ui/utils/expression_properties.inc"
+
+#include "ui/style/variables.inc"
+#include "ui/style/elements.inc"
+
+#include "ui/pages/serverbrowser.inc"
+#include "ui/pages/filters.inc"
+
+{
+	menuDef
+	{
+		name "somecoolmenu"
+		Rect( 0, 0, 640, 480 );
+		Show;
+		fullscreen 1
+
+		onOpen
+		{
+			if ( dvarbool( "kill_dedicatedserver" ) == 0 )
+			{
+				setdvar "ui_sbHasServerSelected" 1;
+				setdvar "ui_sbEnableAddToFavorite" 0;
+				uiScript "loadArenas";
+				setLocalVarString "ui_tempMapFilterKey" ( dvarstring( "ui_filterMapKey" ) );
+				setLocalVarString "ui_tempMapFilterName" ( dvarstring( "ui_filterMapName" ) );
+				setLocalVarString "ui_tempGameTypeFilterKey" ( dvarstring( "ui_joinGameTypeKey" ) );
+				setLocalVarString "ui_tempGameTypeFilterName" ( dvarstring( "ui_joinGameTypeName" ) );
+				setLocalVarString "ui_tempMaxPingName" ( dvarstring( "ui_maxPingName" ) );
+				uiScript "UpdateFilter";
+			}
+			else
+			{
+				close self;
+			}
+			if ( isServerListRefreshing( ) )
+			{
+				uiScript "StopRefresh";
+			}
+			else
+			{
+				uiScript "RefreshServers";
+			}
+			setlocalvarint "mainmenu_page" ( 0 );
+		}
+
+		itemDef
+		{
+			FullRect( -426.667, -240, 893.333, 480, 2, 2 );
+			Show;
+			decoration
+			style 3
+			PresetForecolor( COLOR_WHITE );
+			Material( "background_image" );
+			ExpRectX( -426.667 + select( ( ( milliseconds() % 10000 ) / 5000 ) <= 1.0, 
+				40 * ( ( milliseconds() % 10000 ) / 5000 ) - 40,
+				40 * ( 1 - ( ( milliseconds() % 10000 ) / 5000 - 1 ) ) - 40 
+			) );
+		}
+		
+		Frame;
+		
+		SidebarButton( "PRIVATE MATCH", 	0, "sidebar_button_0", close self; exec "xrequirelivesignin"; exec "startentitlements"; execnow "upload_playercard"; setdvar "systemlink" 0; setdvar "splitscreen" 0; setdvar "onlinegame" 1; exec "exec default_xboxlive.cfg"; exec "xstartprivateparty"; exec "startentitlements"; exec "xstartprivatematch"; exec "xblive_privatematch 1"; open "menu_xboxlive_privatelobby"; );
+		SidebarButton( "CREATE A CLASS", 	1, "sidebar_button_1", close self; setlocalvarstring "ui_customClassLoc" ( "customClasses" ); open cac_popup; );
+		SidebarButton( "CALLSIGN", 			2, "sidebar_button_2", close self; open popup_callsign; );
+		SidebarButton( "BARRACKS", 			3, "sidebar_button_3", close self; open menu_online_barracks; );
+		SidebarButton( "VAULT", 			4, "sidebar_button_4", close self; open popup_vault );
+		SidebarButton( "OPTIONS", 			5, "sidebar_button_5", close self; open pc_options_video );
+		SidebarButton( "FRIENDS", 			6, "sidebar_button_6", close self; open plutonium_friends );
+		SidebarButton( "QUIT", 				7, "sidebar_button_7", open quit_popmenu; );
+		SidebarButton( "UNLOAD MOD", 		8, "sidebar_button_8", setdvar fs_game ""; execnow vid_restart_safe; );
+
+		Topbar;
+
+		ServerBrowser;
+	}
+}

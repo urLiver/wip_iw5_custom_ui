@@ -1,0 +1,97 @@
+#include "ui/utils/properties.inc"
+#include "ui/utils/expression_properties.inc"
+
+#include "ui/style/variables.inc"
+
+{
+	menuDef
+	{
+		name "connect"
+		FullRect( 0, 0, 640, 480, 4, 4 );
+		
+		itemDef
+		{
+			Rect( 0, 0, 680, 480 );
+			Show;
+			NotUseable;
+			PresetBackcolor( COLOR_WHITE );
+			Material( "$levelbriefing" );
+			ExpRectX( 0 + select( ( ( milliseconds % 10000 ) / 5000 ) <= 1.0, 
+				40 * ( ( milliseconds % 10000 ) / 5000 ) - 40,
+				40 * ( 1 - ( ( milliseconds % 10000 ) / 5000 - 1 ) ) - 40 
+			) );
+		}
+
+		itemDef
+		{
+			Rect( 0, 0, 220, 480 );
+			NotUseable;
+			Show;
+			PresetBackcolor( COLOR_BLACK );
+			Material( "white" );
+		}
+
+		itemDef
+		{
+			Rect( 220, 0, 320, 480 );
+			NotUseable;
+			Show;
+			PresetBackcolor( COLOR_BLACK );
+			Material( "tiny_gradient_2" );
+		}
+
+		itemDef
+		{
+			Rect( 50, 320, 220, 100 );
+			NotUseable;
+			Show;
+			PresetForecolor( COLOR_WHITE );
+			AdvancedText( FONT_NORMAL, 0.45, ALIGN_TOP_LEFT, 3 );
+			ExpText( getmapname() );
+		}
+		
+		itemDef
+		{
+			Rect( 50, 0, 220, 100 );
+			NotUseable;
+			Show;
+			PresetForecolor( COLOR_WHITE );
+			Text( FONT_NORMAL, 0.2, ALIGN_TOP_RIGHT );
+			ExpText( connectioninfo() );
+			ExpRectY( 320 + getTextHeight( FONT_NORMAL, 0.45 ) - getTextHeight( FONT_NORMAL, 0.2 ) );
+		}
+
+		itemDef
+		{
+			Rect( 50, 0, 220, 6 );
+			NotUseable;
+			Show;
+			Backcolor( 0.2, 0.2, 0.2, 1 );
+			Material( "white" );
+			ExpRectY( 320 + getTextHeight( FONT_NORMAL, 0.45 ) + 2 );
+		}
+
+		itemDef
+		{
+			name "loadbar"
+			rect 50 320 220 6 0 0
+			decoration
+			visible 1
+			style 6
+			forecolor 0.6 0.6314 0.6 1
+			background "white"
+			exp rect y ( 320 + getTextHeight( 1, 0.45 ) + 2 )
+		}
+		
+		itemDef
+		{
+			Rect( 50, 0, 220, 100 );
+			NotUseable;
+			Show;
+			PresetForecolor( COLOR_WHITE );
+			WrappedText( FONT_NORMAL, 0.25, ALIGN_TOP_LEFT );
+			ExpText( dvarstring( "didyouknow" ) );
+			ExpRectY( 320 + getTextHeight( FONT_NORMAL, 0.45 ) + 10 );
+		}
+	}
+}
