@@ -17,8 +17,8 @@
 			PresetBackcolor( COLOR_WHITE );
 			Material( "$levelbriefing" );
 			ExpRectX( 0 + select( ( ( milliseconds() % 10000 ) / 5000 ) <= 1.0, 
-				40 * ( ( milliseconds() % 10000 ) / 5000 ) - 40,
-				40 * ( 1 - ( ( milliseconds() % 10000 ) / 5000 - 1 ) ) - 40 
+				40 * ( ( milliseconds() % 10000 ) / 5000 ),
+				40 * ( 1 - ( ( milliseconds() % 10000 ) / 5000 - 1 ) )
 			) );
 		}
 

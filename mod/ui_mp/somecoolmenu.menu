@@ -53,8 +53,8 @@
 			PresetForecolor( COLOR_WHITE );
 			Material( "background_image" );
 			ExpRectX( -426.667 + select( ( ( milliseconds() % 10000 ) / 5000 ) <= 1.0, 
-				40 * ( ( milliseconds() % 10000 ) / 5000 ) - 40,
-				40 * ( 1 - ( ( milliseconds() % 10000 ) / 5000 - 1 ) ) - 40 
+				40 * ( ( milliseconds() % 10000 ) / 5000 ),
+				40 * ( 1 - ( ( milliseconds() % 10000 ) / 5000 - 1 ) ) 
 			) );
 		}
 		
